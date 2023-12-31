@@ -1,0 +1,1064 @@
+---
+title: "Apostila de Apoio e Nivelamento"
+subtitle: | 
+    | Programa de Apoio Pedagógico (PAP)
+    | 
+    | Disciplina VNP3124 - Bioinformática aplicada à Medicina Veterinária e Pecuária de Precisão
+    | 
+author: "Me. Alana Selli e Prof. Dr. Ricardo Vieira Ventura"
+date: "`r Sys.Date()`"
+output:
+    html_document:
+        toc: true
+        toc_float: true
+        number_sections: true
+        theme: united
+---
+
+```{r setup, include=FALSE}
+knitr::opts_knit$set(root.dir = "/Users/temp/apostila_FMVZ/")
+options(scipen = 999)
+```
+
+# Introdução
+## Por que utilizar o R?
+Antes de começar o curso, é importante entender o porquê de estudar o que iremos estudar. R é uma linguagem de programação, inicialmente desenvolvida para a comunidade estatística. Isto quer dizer que com o R é possível fazer diversas análises estatísticas, incluindo desde a preparação dos dados, até a aplicação de técnicas avançadas de Machine Learning. Entratanto, o R apresenta muitas outras vantagens:
+
+- **Funciona em diversas plataformas:** disponível para Windows, Linux e Mac;
+
+- **Grátis e open-source:** além de ser livre de custos, o R é um programa open-source. Isso significa que qualquer pessoa pode ver o código que gera o R, e modificá-lo. A vantagem de programas open-source é que muitos programadores podem contribuir para desenvolver tais programas, fazendo manutenções e otimizações, o que por sua vez os torna mais estáveis e confiáveis;
+
+- **Suporta extensões:** o R "básico" é uma ferramenta bastante potente, permitindo a manipulação de dados, modelagem estatística, e o desenvolvimento de gráficos. No entato, existe uma infinidade de pacotes que podem ser adicionados ao R, dedicados aos mais variados assuntos e objetivos - desde gráficos dinâmicos até análises genômicas. Tais pacotes são criados e mantidos pela comunidade, e novos pacotes surgem constantemente;
+
+- **Comunidade engajada:** assim como outras linguagens de programação, o R possui uma comunidade de usuários que são ativos em fóruns (ver seção "Onde buscar ajuda"), respondendo perguntas e ajudando uns aos outros. Por isso, é possível encontrar muitos recursos na internet, e soluções para erros. A comunidade ativa também ajuda o projeto a continuar crescendo e melhorando;
+
+Desta forma, o R oferece não apenas análises estatísticas, mas também ferramentas diversas e gratuitas por meio da instalação de pacotes, assim como uma comunidade que oferece suporte aos novatos.
+
+## A quem este material se destina
+Este material foi desenvolvido para auxiliar os alunos da disciplina de **Bioinformática aplicada à Medicina Veterinária e Pecuária de Precisão**, ministrada para alunos da graduação da FMVZ/USP. Este material cobre o conteúdo passado em aula, com exemplos e exercícios, e deve ser utilizado de forma complementar às aulas ministradas pelo docente. É importante ressaltar que o conteúdo da disciplina pode ser atualizado a cada semestre.
+
+## Instalação do R e RStudio
+O R pode ser baixado diretamente do [site oficial](https://www.r-project.org). Ao clicar no link [download R](https://cran.r-project.org/mirrors.html), você será direcionado para uma página onde deverá selecionar a localização mais próxima a você, portanto a opção [https://vps.fmvz.usp.br/CRAN/](https://vps.fmvz.usp.br/CRAN/) é recomendada. Nesta página, você deverá escolher o sistema referente ao seu computador: Linux, macOS ou Windows. No Windows, selecione a opção `base`, caso utilize macOS ou Linux, escolha a opção de acordo com o seu sistema operacional. Execute o arquivo e siga as instruções para instalar o R.
+
+O RStudio pode ser baixado neste [site](https://posit.co/download/rstudio-desktop/). Caso o seu sistema não seja corretamente identificado ao abrir o link, vá para baixo e procure pela opção mais adequada. Execute o arquivo e siga as instruções de instalação.
+
+## Onde buscar ajuda
+
+Como descrito anteriormente, o R conta com uma comunidade engajada de usuários que fornecem suporte uns aos outros por meio de fóruns - locais onde alguém faz uma pergunta, descrevendo seu problema, e outros respondem. Alguns exemplos são:
+
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/r);
+
+- [Posit](https://community.rstudio.com);
+
+- [Reddit](https://www.reddit.com/r/rstats/).
+
+Também existem diversos blogs com tutoriais, como por exemplo:
+
+- [Como utilizar o ggplot](http://www.sthda.com/english/wiki/ggplot2-essentials);
+
+- [How to Read CSV File into DataFrame in R](https://sparkbyexamples.com/r-programming/r-read-csv-file-with-examples/).
+
+Estes são alguns exemplos de sites que podem ser encontrados ao fazer uma busca por um erro ou dúvida específicos no Google. Uma forma eficiente de buscar ajuda é pesquisar diretamente pelo problema na ferramenta de busca. 
+
+Por exemplo: ao se deparar com um erro, copiar e colar o erro na busca, e ler sobre perguntas que descrevem situações parecidas com a sua. 
+
+Outro exemplo: caso o usuário não saiba qual função utilizar para executar uma determinada tarefa, pesquisar por palavras chaves que descrevem o que se deseja atingir.
+
+Especialmente no caso de quem está começando a utilizar o R, 99% dos erros que ocorrem já foram encontrados por outros, e já existe uma - ou diversas - perguntas e resoluções disponíveis na internet.
+
+E por último, mas não menos importante, ler a documentação das funções. A documentação pode ser encontrada no RStudio na sessão inferior à direita, no menu `help`, ou por meio do script utilizando a função help ou '?função', conforme mostrado abaixo:
+
+```{r}
+help(getwd)
+?getwd
+```
+
+Ao longo do material, utilizaremos o `?função` sempre que introduzirmos uma nova função. Este comando não tem saída na apostila, porém ao executá-lo no R em sua máquina, será possível visualizar a documentação sobre a função estudada.
+
+# Comandos básicos
+## Comentários
+Comentários são importantes para fazer anotações que não serão interpretadas como código. Servem para explicar o que uma ou mais linhas de código faz (pois mesmo quem as escreveu pode esquecer), para tornar uma linha de código não executável, ou separar seções no script.
+
+```{r}
+# Isto é um comentário
+```
+
+```{r error=TRUE}
+Isto não é um comentário e causará um erro
+```
+
+```{r}
+# A linha abaixo mostra o diretório atual
+getwd()
+```
+
+```{r}
+# A linha abaixo não é executável
+# getwd()
+```
+
+
+## Diretórios
+Diretórios são as 'pastas' em um computador. É importante saber em que pasta o R está 'operando', pois ao ler ou salvar arquivos, podemos sobrescrever ou apagar dados importantes, ou não encontrar o arquivo desejado caso estivermos na pasta errada.
+
+É sempre importante manter uma boa organização de seus diretórios, preferencialmente com diretórios separados para cada projeto. Para saber em qual diretóio estamos, utilizamos o comando `getwd()`:
+
+```{r}
+getwd()
+```
+
+Por padrão, o R inicia na pasta "raiz" do computador. É extremamente recomendável que outra pasta seja definida como diretório de trabalho. Para isto, utilizamos o comando `setwd()`. Este comando não tem um *output* ou saída, ou seja, ele não imprime nada após ser executado. Para saber se ele foi executado corretamente, utilizamos novamente o `getwd()`.
+
+```{r warning = FALSE}
+setwd("/Users/temp/novo_diretorio/")
+getwd()
+```
+
+## Variáveis
+### Numéricas
+Variáveis ou Objetos são "peças" onde armazenamos informações no R. Para criar uma variável, devemos escolher um nome para a variável e o conteúdo que ela irá armazenar. Abaixo, iremos criar a variável "peso":
+
+```{r}
+peso = 50
+```
+
+Aparentemente, nada aconteceu. Porém, se nós "chamarmos" a variável pelo seu nome, veremos o valor que ela armazena:
+
+```{r}
+peso
+```
+
+Também podemos utilizar o sinal `<-` ao invés do `=` para criar uma variável. Vamos criar uma nova variável abaixo:
+
+```{r}
+peso_final <- 80
+peso_final
+```
+
+Agora, podemos chamar as variáveis pelo seu nome ao invés de digitar seus valores sempre que precisarmos. Faremos a diferença do peso final e inicial:
+
+```{r}
+peso_final - peso
+```
+
+Note que o R imprimiu o resultado da operação acima. Também podemos salvar o resultado em uma terceira variável, neste caso o R não mostra o resultado, a menos que esta nova variável seja "chamada".
+
+```{r}
+diferenca = peso_final - peso
+```
+```{r}
+diferenca
+```
+
+### Caracteres
+Nos exemplos acima, criamos variáveis do tipo *numérico*. No entanto, as variáveis também podem armazenar informações do tipo *caractere*. Neste caso, os valores devem estar entre aspas:
+
+```{r}
+pelagem = "tordilha"
+pelagem
+```
+
+### Lógicas
+Um último tipo de variáveis que veremos é o tipo `lógico`. Ele serve para dizer se algo é verdadeiro ou falso, e apresenta apenas duas possibilidades:
+
+```{r}
+verdadeiro = TRUE
+verdadeiro
+```
+```{r}
+falso = FALSE
+falso
+```
+
+Note que a cor dos valores `TRUE` e `FALSE` ficou diferente nos exemplos acima. Isto acontece porque o R entende que estes valores não são textos comuns (note que não estão entre aspas).
+
+O conceito de variáveis pode não parecer muito útil por agora, mas ele será bastante importante nas próximas etapas.
+
+É importante notar que nenhuma das variáveis criadas contém caracteres especiais no nome, como `ç`, acentos ou espaços. Isto evita diversos tipos de problema (no caso do espaço e outros caracteres, como `$` ou `[`, não seria possível utilizá-los para nomear uma variável, diferente dos acentos que podem ser utilizados, mas devem ser evitados).
+
+## Vetores
+Vetores são como uma lista de valores do mesmo tipo. Para criar vetores, utilizamos a função `c()` e separamos os valores por vírgulas.
+
+```{r}
+# Execute em sua máquina
+?c
+```
+
+
+```{r}
+pesos_ao_nascimento = c(30, 40, 35, 27, 33)
+racas = c("nelore", "angus", "angus", "nelore", "nelore")
+```
+```{r}
+pesos_ao_nascimento
+racas
+```
+
+Até agora, não vimos nada de impressionante que o R pode fazer. No entanto, imagine que você precisa criar um vetor de IDs de animais, com 100 animais. Você digitaria todos os números, de 1 a 100? Seria preferível que você utilizasse o comando abaixo:
+
+```{r}
+IDs = c(1:100)
+IDs
+```
+## Matrizes
+Matrizes são um conjunto de vetores.
+
+```{r}
+# Execute em sua máquina
+?matrix
+```
+
+```{r}
+minha_matriz = matrix(c(1,2,3,4,5,6), nrow = 3, ncol = 2)
+minha_matriz
+```
+Também existem matrizes de caracteres, porém não há matrizes de números E caracteres.
+
+```{r}
+outra_matriz = matrix(c("cavalo", "abelha", "galinha", "suíno"), nrow = 2, ncol = 2)
+outra_matriz
+```
+
+```{r}
+matriz3 = matrix(c("cavalo", "abelha", 3, 4), nrow = 2, ncol = 2)
+matriz3
+```
+
+Note que os números 3 e 4 foram automaticamente convertidos para caractere (estão entre aspas).
+
+## Data Frames
+Data Frames são estruturas parecidas com as matrizes, porém aceitam diferentes tipos de dados.
+
+```{r}
+# Execute em sua máquina
+?data.frame
+```
+
+```{r}
+meu_df = data.frame(Animal = c("Vaca","Porco","Galinha","Polvo","Lagartixa","Tubarão","Camelo"),
+                    Pernas = c(4, 4, 2, 8, 4, 0, 4),
+                    Ruminante = c(TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, TRUE))
+meu_df
+```
+
+Atenção: colunas diferentes podem conter diferentes tipos de dados, porém cada coluna só pode conter um tipo. Caso sejam misturados números, letras e/ou caracteres especiais, a coluna é convertida para o tipo "caractere".
+
+## Valores perdidos
+Muitas vezes é necessário informar ao R que um valor foi perdido ou armazenado de forma errada. O R possui um valor especial nestes casos, que é o `NA`. NA significa 'Not Available', ou não disponível em inglês. Assim como o `TRUE` e o `FALSE`, NA é um termo *reservado*, que não é identificado como texto, não deve ser colocado entre aspas e nem utilizado como nome de variável, e deve ser escrito em caixa alta (letras maiúsculas). 
+
+```{r}
+valor_perdido = NA
+valor_perdido
+```
+```{r}
+pesos_ao_desmame = c(158, 233.50, 215.85, NA, 177.34)
+pesos_ao_desmame
+```
+
+Note que o R utiliza o ponto como separador de decimais, e a vírgula para separar valores.
+
+Atenção: NAs não fazem com que o tipo da coluna seja alterado para caractere.
+
+## Funções exploratórias
+A seguir, veremos algumas funções básicas do R, que podem ser utilizadas para conhecer melhor os dados (muitas vezes, trabalhamos com dados que não foram gerados por nós mesmos) ou identificar os tipos de variáveis que temos, o que nos auxilia no momento de 'dubuggar' o código, isto é, corrigir erros.
+
+### print
+A função `print()` imprime valores na tela. Anteriormente, fizemos isto apenas chamando a variável pelo seu nome, no entanto em alguns casos será necessário utilizar o print (veremos mais a frente).
+
+```{r}
+# Execute em sua máquina
+?print
+```
+
+```{r}
+print(pesos_ao_nascimento)
+```
+
+Também podemos passar novos valores para a função:
+
+```{r}
+ print("Esta é uma mensagem escrita diretamente na função print.")
+```
+
+### head e tail
+A função `head()` mostra os primeiros valores da variável, enquanto que a função `tail()` mostra os últimos.
+
+```{r}
+# Execute em sua máquina
+?head
+?tail
+```
+
+```{r}
+head(IDs)
+tail(IDs)
+```
+Por padrão, as funções `head()` e `tail()` mostram apenas os 6 primeiros ou últimos valores (no caso de vetores), ou linhas (no caso de matrizes e data frames). No entanto, novos valores podem ser especificados:
+
+```{r}
+head(meu_df,3)
+tail(meu_df,4)
+```
+
+### summary
+A função `summary()` sumariza um conjunto de dados.
+
+```{r}
+# Execute em sua máquina
+?summary
+```
+
+```{r}
+summary(pesos_ao_desmame)
+summary(racas)
+summary(meu_df)
+```
+
+Note que o comportamento da função é diferente dependendo do tipo dos dados. Para dados numéricos, ela mostra o valor mínimo, do primeiro quartil, mediano, médio, terceiro quartil, máximo, e o número de NAs. Para variáveis do tipo caracter, ela identifica o número de valores e o tipo dos dados.
+
+### length
+A função `length()` identifica o comprimento, isto é, o número de itens em uma variável.
+
+```{r}
+# Execute em sua máquina
+?length
+```
+
+```{r}
+length(peso)
+length(pesos_ao_desmame)
+length(meu_df)
+```
+
+Note que a função `length()`, quanto utilizada em um Data Frame, retorna o número de colunas.
+
+### dim, nrow e ncol
+Para os Data Frames, as funções `dim()`, `nrow()` e `ncol()` são preferíveis. `dim()` mostra o número de linhas e o número de colunas de um data frame.
+
+```{r}
+# Execute em sua máquina
+?dim
+?nrow
+?ncol
+```
+
+```{r}
+dim(meu_df)
+```
+
+`nrow()` e `ncol()` mostra os números de linhas e de colunas separadamente:
+
+```{r}
+nrow(meu_df)
+ncol(meu_df)
+```
+
+
+### sum
+A função `sum()` faz a soma de todos os valores em um vetor.
+
+```{r}
+# Execute em sua máquina
+?sum
+```
+
+```{r}
+sum(pesos_ao_nascimento)
+```
+
+Note que a presença de um valor NA faz com que a soma dos valores também retorne NA:
+
+```{r}
+sum(pesos_ao_desmame)
+```
+
+É possível pedir ao R que ignore o valor NA. Para isso, usaremos um argumento da função `sum()`.
+
+```{r}
+sum(pesos_ao_desmame, na.rm = TRUE)
+```
+
+Para ver todos os argumentos disponíveis em uma função, leia a documentação da função.
+
+### mean
+A função `mean()` retorna a média de um vetor, e funciona de maneira similar à sum.
+
+```{r}
+# Execute em sua máquina
+?mean
+```
+
+```{r}
+mean(pesos_ao_desmame)
+mean(pesos_ao_desmame, na.rm = TRUE)
+```
+
+Outras funções similares são: `min()`, `median()`, `sd()`, entre outras. Note que os nomes das funções são bastante informativos para quem tem conhecimento na língua inglesa: min é a abreviação de minimun (mínimo), median significa mediana, e sd é a sigla de Standard Deviation (desvio padrão), frequentemente adotada em artigos científicos.
+
+### class
+A função `class()` mostra a classe ou tipo de uma variável.
+
+```{r}
+# Execute em sua máquina
+?class
+```
+
+```{r}
+class(verdadeiro)
+class(IDs)
+class(racas)
+class(valor_perdido)
+class(meu_df)
+```
+
+Note que a classe de `IDs` é "integer". O R faz uma diferenciação entre números inteiros e com decimais, sendo os primeiros chamados de 'integer', enquanto que os números 'quebrados' são chamados de 'numeric'.
+
+### typeof
+A função `typeof()` é muito similar à `class()`, com a exceção de que números com decimais são chamados de 'double'.
+
+```{r}
+# Execute em sua máquina
+?typeof
+```
+
+```{r}
+typeof(peso)
+typeof(verdadeiro)
+typeof(IDs)
+typeof(racas)
+typeof(valor_perdido)
+typeof(meu_df)
+```
+
+Tecnicamente, existem outras diferenças, que são melhor explicadas neste [link](https://stats.stackexchange.com/questions/3212/mode-class-and-type-of-r-objects). No entanto, por agora o importante é saber que existem funções que nos permitem identificar o tipo dos dados, e que elas podem ser úteis quando nos deparamos com erros no código.
+
+### str
+A função `str()` mostra a estrutura de uma variável. Além de informar o tipo dos dados, ela mostra os valores iniciais da variável.
+
+```{r}
+# Execute em sua máquina
+?str
+```
+
+```{r}
+str(peso)
+str(pelagem)
+str(verdadeiro)
+str(IDs)
+str(racas)
+str(valor_perdido)
+str(meu_df)
+```
+
+## Exercícios
+
+1. Crie uma variável com o nome `animal` e com valor `coelho`;
+2. Crie uma variável com o nome `idade` e com valor `5`;
+3. Crie uma variável do tipo lógico (TRUE/FALSE);
+4. Crie uma variável com 'valor perdido';
+5. Crie um vetor com o nome `especies` e valores `bovino, caprino, ovino, bubalino`;
+6. Crie um vetor com o nome `pesos` e valores `500, 50, 55, 600`;
+7. Crie um vetor com valores lógicos (TRUE/FALSE);
+8. Crie um vetor com valores de diferentes tipos;
+9. Crie um vetor contendo NA(s);
+10. Crie um Data Frame com 3 colunas, com diferentes tipos de dados;
+11. Aplique as funções exploratórias nos objetos (variáveis) criados e compare os resultados (outputs).
+
+# Operações com vetores
+## Soma
+O R pode ser utilizado para realizar operaçoes matemáticas, seja com escalares ou vetores.
+
+```{r}
+vetor1 = c(1,2,3,4,5)
+vetor1
+vetor2 = vetor1 + 1
+vetor2
+```
+
+Ao somar um escalar (1) a um vetor, note que o escalar é adicionado a cada um dos elementos deste vetor.
+
+```{r}
+vetor3 = vetor1 + vetor1
+vetor3
+```
+
+Ao somar dois vetores, os valores de cada posição do primeiro vetor são somados com os valores correspondentes do segundo vetor.
+
+Nota: o mesmo pode ser feito para subtração, multiplicação ou divisão.
+
+## Concatenação
+A função `c()`, utilizada para criar vetores, faz a concatenação dos valores que são passados a ela.
+
+```{r}
+# Execute em sua máquina
+?c
+```
+
+```{r}
+doisvetoresjuntos = c(vetor1, vetor2)
+doisvetoresjuntos
+
+length(vetor1)
+length(vetor2)
+length(doisvetoresjuntos)
+```
+
+## Criação de vetores
+Até o momento, vimos duas formas de criar vetores, utilizando o comando `c()`, e com o sinal `:` para criar um vetor com números sequenciais. No entanto, podemos nos deparar com uma situação onde precisamos criar um vetor com muitos valores que não sejam sequenciais.
+
+Execute o comando abaixo em sua sessão R para ver a documentação da função `rep()`:
+```{r}
+# Execute em sua máquina
+?rep
+```
+
+Para criar um vetor com o valor "cachorro" 5 vezes, utilizamos a função `rep()` da seguinte maneira:
+
+```{r}
+rep("cachorro", 5)
+```
+
+O mesmo pode ser feito se especificarmos o argumento `times`, que foi especificado na função anterior, porém de maneira implícita.
+
+```{r}
+rep("cachorro", times=5)
+```
+
+Também podemos passar números, e outros vetores para a função:
+
+```{r}
+rep(101, 8)
+rep(c(101:105), 3)
+```
+
+Primeiro, nós criamos um vetor com o valor 101, 8 vezes. Depois, criamos um vetor com os valores de 101 a 105, repetidos 3 vezes.
+
+Ao invés do argumento `times`, podemos utilizar o `each` (este deve ser sempre especificado, caso contrário, a função usará o times, como visto anteriormente):
+
+```{r}
+rep(c(1, 4, 5), each=5)
+rep(c("Veterinária", "Zootecnia", "Agronomia"), each=5)
+```
+
+Note que com o argumento `each`, *cada* elemento apareceu 5 vezes, de forma seguida.
+
+## Filtros
+
+É possível obter apenas um elemento de um vetor, utilizando colchetes `[]` para selecionar a posição do elemento desejado:
+
+```{r}
+cursos = c("Veterinária", "Zootecnia", "Agronomia", "Biologia", "Computação")
+cursos[1]
+```
+
+Podemos obter mais de um elemento, de forma sequencial:
+
+```{r}
+cursos[3:5]
+```
+
+Ou podemos passar um *vetor de posições* como filtro:
+
+```{r}
+posicoes = c(1, 3, 5)
+cursos[posicoes]
+```
+
+No caso de data frames, devemos especificar as linhas e colunas a serem filtradas, seprando as posições de linhas e colunas por uma vírgula:
+
+```{r}
+meu_df[1,1]
+```
+
+Ao selecionar mais de uma linha ou coluna, não se esqueça de colocar as posições selecionadas dentro de um vetor, caso contrário o R não entende o que são os valores "extra":
+
+```{r, error=TRUE}
+meu_df[c(1,2,3), c(2,3)]
+meu_df[1,2,3,2,3]
+```
+
+Outra forma de filtrar as colunas de um data frame é utilizando o sinal `$` e o nome da coluna:
+
+```{r}
+meu_df$Animal
+```
+
+É possível combinar o `$` e o filtro de linhas. Neste caso, não é necessário especificar o número de colunas, já que estas já foram filtradas pelo `$`:
+
+```{r}
+meu_df$Animal[c(3,7)]
+```
+
+Outra forma de filtrar os dados é pelo conteúdo, ao invés da posição. Vamos selecionar as *linhas* do data frame onde o número de pernas é igual a 4:
+
+```{r}
+meu_df[meu_df$Pernas == 4,]
+```
+
+Note algumas observações:
+
+- Utilizamos os sinais `==`, pois não estamos modificando valores, apenas criando um condição (igual a);
+
+- Além disso, ao especificar a coluna na qual queremos que o filtro seja aplicado, precisamos utilizar 'o nome completo' do objeto, isto é, o nome do data frame e a coluna `meu_df$Pernas`;
+
+- O filtro utilizou o nome da coluna, porém foi aplicado nas linhas. Queremos *apenas as linhas* em que o número de pernas, informado na *coluna* pernas, é igual a 4.
+
+- A vírgula separa os filtros de linhas e colunas. Como nenhum filtro foi passado para as colunas (direita da vírgula), todas as colunas foram chamadas.
+
+Vamos para mais um exemplo: Apenas animais ruminantes, e apenas as duas primeiras colunas.
+
+```{r}
+meu_df[meu_df$Ruminante == TRUE, c(1,2)]
+```
+
+Apenas animais iguais a "Vaca":
+
+```{r}
+meu_df[meu_df$Animal == "Vaca",]
+```
+
+Se escolhermos um animal que não existe no data frame, ele retorna o mesmo em branco:
+
+```{r}
+meu_df[meu_df$Animal == "Baleia",]
+```
+
+Também podemos passar uma lista de nomes, ao invés de apenas um. Neste caso, precisamos utilizar o operador `%in%`:
+
+```{r}
+meu_df[meu_df$Animal %in% c("Vaca","Galinha","Lagartixa"), ]
+```
+
+## Alteração de valores
+Utilizando os filtros, podemos substituir os valores das posições especificadas, da seguinte forma:
+
+```{r}
+cursos[posicoes] = NA
+cursos
+```
+
+Que é o mesmo que fazer:
+```{r}
+cursos = c("Veterinária", "Zootecnia", "Agronomia", "Biologia", "Computação")
+print(cursos)
+cursos[c(1, 3, 5)] = NA
+print(cursos)
+cursos[1] = "Veterinária"
+print(cursos)
+meu_df[meu_df$Animal == "Porco",1] = NA
+print(meu_df)
+```
+
+Atenção, NAs são especiais!
+
+```{r}
+meu_df[meu_df$Animal == NA,]
+```
+
+O que aconteceu??? NAs são tão especiais, que se você tentar comparar NA com NA, o resultado não será TRUE, e sim NA!
+
+```{r}
+"cachorro" == "cachorro"
+3 == 3
+NA == NA
+```
+
+Então como filtrar linhas com NA?
+
+```{r}
+# Execute em sua máquina
+?is.na
+```
+
+```{r}
+meu_df[is.na(meu_df$Animal),]
+```
+
+
+## Exercícios
+1. Crie um vetor numérico e adicione um valor escalar ao mesmo;
+2. Crie dois vetores numéricos, e subtraia um do outro;
+3. Concatene três vetores;
+4. Verifique os tamanhos dos vetores concatenados originais e do vetor final do item anterior;
+5. Concatene um vetor numérico e um de caracteres, e verifique o tipo do vetor final;
+6. Crie um vetor com a sequência numérica `500, 600, 700, 800, 1000` 50 vezes;
+7. Crie um vetor onde cada elemento `1,2,3` se repete 100 vezes;
+8. Substitua os valores das posições 5, 50, e 75 por NA no vetor do item anterior;
+9. Substitua os valores das posições de 1 a 100 pelo valor 999 no veto do item anterior;
+10. Crie um data frame com 6 linhas e 4 colunas e substitua o valor da linha 1 e coluna 5 por NA;
+11. Filtre o data frame do item anterior para obter apenas linhas com NA na coluna 5.
+
+
+# Datas
+Para que o R entenda que uma data é uma data, é necessário utilizar a função `as.Date()`.
+
+```{r}
+# Execute em sua máquina
+?as.Date
+```
+
+Caso contrário, o R entende que se trata de um texto qualquer:
+
+```{r}
+minha_data = "25/03/2019"
+typeof(minha_data)
+minha_data = as.Date(minha_data)
+class(minha_data)
+```
+
+Mas tome cuidado! Veja como o R entendeu a data:
+
+```{r}
+print(minha_data)
+```
+
+Isso aconteceu porque o R reconhece datas com o formato Ano/Mês/Dia, que é o padrão de diversas linguagens. Então como podemos informar o formato certo para o R?
+
+```{r}
+minha_data = "25/03/2019"
+as.Date(minha_data, format="%d/%m/%Y")
+```
+
+Agora o R leu a data da forma correta. Vamos para mais um exemplo:
+
+```{r}
+outra_data = "2023-30-03"
+as.Date(outra_data, format="%Y-%d-%m")
+```
+
+Note que o R sempre armazena as datas no mesmo formato: ano, mês e dia.
+
+## Exercícios
+1. Crie uma variável com o valor `05-11-2013`;
+2. Verifique o tipo da variável do item anterior;
+3. Transforme a variável do item 1 em data;
+4. Desafio: Crie um data frame com uma coluna de datas. Dica: Crie a coluna como caractere, converta a coluna para o tipo data, e depois verifique a estrutura do data frame com a função `str()`.
+
+# Leitura de dados
+Muitas vezes, os dados que iremos analisar no R estão disponíveis em uma planilha Excel, em um arquivo .txt (de texto), ou .csv (valores separados por vírgula). Para importar estes dados no R, utilizamos a função `read.csv()`.
+
+```{r}
+# Execute em sua máquina
+?read.csv
+```
+
+Dica: caso os dados estejam em formato Excel (xlsx ou similar), converta-os em .csv com o Excel.
+
+Iremos utilizar os dados de produção de leite por ano e país, disponíveis no site [Our World in Data](https://ourworldindata.org/grapher/milk-production-tonnes).
+
+Primeiro, tenha certeza que os dados estão no seu diretório atual:
+
+```{r}
+getwd()
+list.files()
+```
+
+Não se esqueça de escrever o **nome completo** do arquivo, incluindo a extensão (.csv)!
+
+```{r}
+dados = read.csv("milk-production-tonnes.csv", header = TRUE, sep = ",", dec = ".")
+```
+
+Vamos checar se os dados foram importados corretamente:
+
+```{r}
+head(dados)
+tail(dados)
+dim(dados)
+str(dados)
+summary(dados)
+```
+
+Note que na função `read.csv()` alguns argumentos foram especificados. Os valores deverão ser especificados conforme os dados que estiverem sendo lidos. O argumento `header` indica se a primeira linha deve ser considerada como cabeçalho ou não, `sep` indica o separador de colunas, e `dec`, o decimal. Para ver outros argumentos desta função, basta consultar a documentação.
+
+Extra: Mudança de nome de coluna
+
+Como podemos ver, o nome da última coluna deste data frame não é muito prático. Para alterar o nome de uma coluna, podemos utilizar o código a seguir:
+
+```{r}
+nomes_das_colunas = colnames(dados)
+nomes_das_colunas
+
+nomes_das_colunas[4] = "Milk_production"
+nomes_das_colunas
+
+colnames(dados) = nomes_das_colunas
+head(dados)
+```
+
+## Exercícios
+1. Acesse o site [OurWorldInData](http://ourworldindata.org/) ou o [Kaggle](https://www.kaggle.com) e escolha um data set de interesse (cuidado, alguns data sets disponíveis neste sites são bem pesados!);
+2. Importe o data set escolhido no R;
+3. Verifique se os dados foram importados corretamente utilizando a função `str()`;
+4. Extra: Altere o nome das colunas e explore os dados!
+
+# Criação de Funções
+Já vimos que o uso das 'funções exploratórias' pode ser muito útil para conhecermos melhor os dados que temos em mãos. Como as utilizamos muitas vezes, seria interessante que com apenas um comando, conseguíssemos aplicar todas as funções no mesmo data frame. Para isso, podemos criar a nossa própria função.
+
+Para criar uma função, utilizamos a função `function`. Por algum motivo, o R não consegue pesquisar por esta função com o comando `?function`. Para acessar a sua documentação, abra o RStudio e, no canto inferior direito, procure por help, e digite o nome da função na caixa de busca.
+
+Para entender melhor como ela funciona, vamos começar com algo simples:
+
+```{r}
+somar_numeros = function(a, b){
+    a + b
+}
+```
+
+Aparentemente, nada aconteceu. A função foi criada, porém para que ela seja executada, precisamos chamá-la.
+
+```{r}
+somar_numeros(1,3)
+```
+
+Esta é uma função simples, que soma a e b. Ao chamar a função, precisamos especificar qual é o valor de a, e qual é o valor de b.
+
+Agora, vamos criar a função `checar_dados`:
+
+```{r}
+checar_dados = function(df){
+    head(df)
+    dim(df)
+}
+
+checar_dados(dados)
+```
+
+Aparentemente, apenas o comando `dim()` foi utilizado. Isto acontece pois as funções do R foram desenvolvidas por pessoas diferentes, e cada uma tem um jeito de funcionar. Para que os resultados de `head()` apareçam, devemos utilizar a função `print()`.
+
+```{r}
+checar_dados = function(df){
+    print(head(df))
+    dim(df)
+}
+
+checar_dados(dados)
+```
+
+Agora, vamos adicionar mais algumas funções dentro da nossa função principal. Para diferenciar os resultados de cada uma, vamos colocar comandos `print()` entre cada uma delas:
+
+```{r}
+checar_dados = function(df){
+    print("head:")
+    print(head(df))
+    print("-------------------------------------")
+    print("tail:")
+    print(tail(df))
+    print("-------------------------------------")
+    print("dim:")
+    print(dim(df))
+    print("-------------------------------------")
+    print("summary:")
+    print(summary(df))
+    print("-------------------------------------")
+    print("str:")
+    print(str(dados))
+    print("-------------------------------------")
+    print("class:")
+    print(class(df))
+    print("---------------- FIM! -----------------")
+    
+}
+
+checar_dados(dados)
+```
+Pronto, agora nós podemos aplicar esta função em qualquer data frame!
+
+## Exercícios
+1. Crie a sua própria função! Use a sua criatividade para escolher o que ela irá executar.
+2. Dica: Siga este [tutorial](https://www.w3schools.com/r/r_functions.asp).
+
+# Condicionais e Loops
+Condicionais e Loops são ótimas formas de automatizar trabalhos repetitivos, tornando nosso código mais eficiente e de leitura mais agradável.
+
+## If/Else
+O `if` e o `else` são *condicionais*, isto é, eles fornecem instruções de *caso x, faça y*. *Caso contrário, faça z*. Vamos para um exemplo:
+
+```{r}
+animal = "vaca"
+
+if(animal == "vaca"){
+    print("É um ruminante")
+}
+```
+
+O que o código acima está fazendo é: Se o objeto animal for igual a "vaca", imprima "É um ruminante".
+
+```{r}
+animal = "onça"
+
+if(animal == "vaca"){
+    print("É um ruminante")
+}
+```
+
+Neste segundo exemplo, nada aconteceu. Se quisermos realizar uma operação mesmo que a condição seja *negada*, utilizamos o `else`:
+
+```{r}
+animal = "onça"
+
+if(animal == "vaca"){
+    print("É um ruminante")
+} else{
+    print("Não é um ruminante")
+}
+```
+
+Para atender a mais condições, podemos combinar o `else` e o `if`:
+
+```{r}
+idade = 16
+
+if(idade < 13){
+    print("Criança")
+} else if(idade < 20){
+    print("Adolescente")
+} else{
+    print("Adulto")
+}
+```
+
+Estes exemplos são apenas ilustrativos. À medida que vamos aprendendo a fazer computações mais avançadas, os condicionais tornam-se bastante interessantes para nomear colunas, definir valores de variáveis, e até mesmo para gerar funções mais complexas.
+
+## For Loop
+
+Os loops são ações que acontecem várias vezes. No caso do `for`, a ideia é que *para cada item em uma lista, faça x*.
+
+```{r}
+areas = c("Patologia", "Cirurgia", "Bioinformatica", "Microbiologia")
+
+for (item in areas) {
+    print(item)
+}
+```
+
+Na maioria das vezes, é preferível utilizar a função `length()` e percorrer um vetor de números:
+
+```{r}
+areas = c("Patologia", "Cirurgia", "Bioinformatica", "Microbiologia")
+
+for (numero in 1:length(areas)) {
+    print(areas[numero])
+}
+```
+
+Isto ficará mais evidente em exemplos mais complexos:
+
+```{r}
+largura = c(5, 5.3, 6)
+altura = c(2, 3, 5)
+comprimento = c(4, 1.2, 7)
+
+for (i in 1:length(largura)) {
+    volume = largura[i] * altura[i] * comprimento[i]
+    print(paste("Volume igual a:", volume))
+}
+```
+
+## While Loop
+
+'While' significa *enquanto*. Portanto, *enquanto tal condição não for atendida, faça x*.
+
+```{r}
+x=0
+while(x<10){
+    x=x+1
+    print(x)
+}
+```
+
+Ao utilizar os loops deve-se ter cuidado, pois é possível criar condições que jamais serão atendidas, fazendo com que o loop continue infinitamente. Neste caso, é necessário interromper o comando utilizando ctr+C. 
+
+# Gráficos
+O R base conta com funções para a criação de gráficos. Vamos ver alguns exemplos:
+
+```{r}
+dados_Brasil = dados[dados$Entity == "Brazil",]
+head(dados_Brasil)
+
+plot(x=dados_Brasil$Year, y=dados_Brasil$Milk_production)
+```
+
+Com este gráfico, é possível ter uma noção da tendência de produção leiteira no Brasil ao longo dos anos. Porém, esteticamente há muito o que melhorar. Vamos tentar mais um tipo de gráfico:
+
+```{r}
+dados_limitados = dados[dados$Code %in% c("AUS", "BRA", "CAN", "USA"),]
+boxplot(Milk_production~Code, data=dados_limitados)
+```
+
+É possível melhorar a aparência destes gráficos. No entanto, vamos utilizar o pacote `ggplot2` ao invés, por se tratar de um pacote com mais recursos gráficos do que o R base.
+
+O ggplot foi desenvolvido com base na filosofia 'A gramática dos gráficos', um esquema generalista para visualização de dados que quebra os gráficos em componentes semânticos, como escalas e camadas ([Wikipedia](https://en.wikipedia.org/wiki/Ggplot2)).
+
+Em outras palavras, o ggplot utiliza camadas de código para a criação de gráficos, onde cada camada realiza uma função específica, como elementos em uma sentença gramatical.
+
+Vamos ilustrar melhor com um exemplo. Primeiro, devemos 'importar' o pacote:
+
+```{r}
+# Caso não tenha o ggplot instalado, rode a linha abaixo sem a #
+# install.packages("ggplot2")
+# Em seguida, não se esqueça de importar o pacote, rodando a linha abaixo:
+library(ggplot2)
+```
+
+A 'função base' é a `ggplot`. Ela cria a 'moldura' do gráfico, e o argumento `aes` permite especificar os dados que alimentarão a visualização:
+
+```{r}
+grafico1 = ggplot(data = dados_limitados, aes(Year, Milk_production))
+grafico1
+```
+
+A seguir, adicionaremos uma nova camada neste gráfico, especificando que queremos "pontos":
+
+```{r}
+grafico1 = grafico1 + geom_point()
+grafico1
+```
+
+Podemos identificar algumas "linhas", que mostram a produção de leite em diferentes países. Para saber qual linha refere-se a cada país, podemos especificar uma cor.
+
+```{r}
+grafico1 = ggplot(data = dados_limitados, aes(Year, Milk_production, colour = Entity)) +
+    geom_point()
+
+grafico1
+```
+
+Vamos adicionar título e nomes nos eixos x e y:
+
+```{r}
+grafico1 = grafico1 + ggtitle("Produção de leite ao longo dos anos em diferentes países") +
+                            xlab("Anos") +
+                            ylab("Produção de Leite")
+grafico1
+```
+
+Seria possível fazer muitas outras melhorias, porém vamos ficar no básico por enquanto. Para fazer um boxplot, podemos utilizar um código parecido, porém trocando a função `geom_point()` pela `geom_boxplot()`. A função `theme_bw()` altera a cor do fundo de uma forma prática:
+
+```{r}
+grafico2 = ggplot(data = dados_limitados, aes(Entity, Milk_production, colour = Entity)) +
+    geom_boxplot() +
+    ggtitle("Produção de leite em diferentes países") +
+    xlab("Países") +
+    ylab("Produção de Leite") +
+    theme_bw()
+
+grafico2
+
+```
+
+## Exercícios
+1. Crie um gráfico de pontos utilizando o ggplot;
+2. Crie um boxplot utilizando o ggplot;
+3. Explore o ggplot e tente encontrar novas funcionalidades interessantes!
+4. Dica: utilize os seguintes sites como auxílio: [ggplot2](https://ggplot2.tidyverse.org), [r-statistics](http://r-statistics.co/Complete-Ggplot2-Tutorial-Part1-With-R-Code.html), [STHDA](http://www.sthda.com/english/wiki/ggplot2-title-main-axis-and-legend-titles), [Cookbook for R](http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/).
+
+# Agradecimentos
+Agradecemos à Universidade de São Paulo pela concessão da bolsa no Programa de Aperfeiçoamento Pedagógico (PAP) e à FAPESP pela bolsa de Mestrado (2021/11156-8).
+
+# Referências
+- VRIES, A; MEYS, J. (2015). **R for Dummies.** 2nd edition. Hoboken, NJ: Wiley Publishing.
+
+- W3SCHOOLS. **R Tutorial.** Disponível em: https://www.w3schools.com/r/default.asp. Acesso em: 14 jun. 2023.
+
+- WIKIPEDIA. **Ggplot2.** Disponível em: https://en.wikipedia.org/wiki/Ggplot2. Acesso em: 14 jun. 2023.
